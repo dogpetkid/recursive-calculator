@@ -8,9 +8,9 @@ public class Recipe {
     private Map<Recipe,Integer> ingredients;
 
     /**
-     * Create a reipe from an arraylist of items.
+     * Create a recipe from an map of items.
      * @param name of the recipe.
-     * @param ingredients is a list of the names of all repipes that make the original.
+     * @param ingredients is a list of the names of all recipes that make the original.
      */
     public Recipe(String name, Map<String,Integer> ingredients) {
         this.name = name;
@@ -30,7 +30,7 @@ public class Recipe {
     }
 
     /**
-     * Calculates the fundamental amount of things it takes to fufil this recipe.
+     * Calculates the fundamental amount of things it takes to fulfill this recipe.
      * @return HashMap with all fundamental recipes and numbers.
      */
     public Map<Recipe,Integer> calculateFundamental() {

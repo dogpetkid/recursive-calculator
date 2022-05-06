@@ -8,7 +8,7 @@ public class RecipeManager {
     private static ArrayList<Recipe> allrecipes = new ArrayList<Recipe>();
 
     /**
-     * Create a recipie from user input.
+     * Create a recipe from user input.
      * @param name of the recipe being made.
      */
     public static Recipe createUserRecipe(String name) {
