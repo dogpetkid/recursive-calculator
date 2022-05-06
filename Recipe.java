@@ -39,14 +39,25 @@ public class Recipe {
             total.put(this, 1);
             return total;
         }
-        for (Map.Entry<Recipe, Integer> ingredient : ingredients.entrySet()) {
-            for (Map.Entry<Recipe, Integer> sub : ingredient.getKey().calculateFundamental().entrySet()) {
-                Integer current = total.get(sub.getKey());
-                try {
-                    total.put(sub.getKey(), current+sub.getValue()*ingredient.getValue());
+
+        // iterate all of this recipe's ingredients
+        for (Map.Entry<Recipe, Integer> ingredient : ingredients.entrySet())
+        {
+            // iterate over all the fundamentals of the ingredients
+            for (Map.Entry<Recipe, Integer> fundamental : ingredient.getKey().calculateFundamental().entrySet())
+            {
+                // current is set to the number of uses of this fundamental
+                Integer current = total.get(fundamental.getKey());
+                // note that current could be set to null during this operation if it has not already been accounted for
+
+                if (!(current == null))
+                {
+                    // update the total for the given fundamental to include the previous amount and the amount required to make the ingredient times the number of that ingrdient needed
+                    total.put(fundamental.getKey(), current+fundamental.getValue()*ingredient.getValue());
                 }
-                catch (NullPointerException e) {
-                    total.put(sub.getKey(), sub.getValue()*ingredient.getValue());
+                else
+                {
+                    total.put(fundamental.getKey(), fundamental.getValue()*ingredient.getValue());
                 }
             }
         }
