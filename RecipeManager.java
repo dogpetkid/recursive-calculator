@@ -15,14 +15,47 @@ public class RecipeManager {
         Scanner scan = Main.scan;
         Map<String,Integer> ingredients = new HashMap<String,Integer>();
         String input="";
+        int multiplier = 1;
         System.out.println("Input the ingredients of "+name);
         System.out.println("Format is '# name'");
+        System.out.println("Use 'x#' to change the multiplier.");
         System.out.println("(Enter an blank line to end recipe.)");
         while (true) {
             input = scan.nextLine();
-            if (input.equals("")) {
+
+            // stop collecting ingredients on blank
+            if (input.isBlank()) {
                 break;
             }
+
+            // allow comments
+            if (input.charAt(0) == '#') {
+                continue;
+            }
+
+            // provide help
+            if (input.charAt(0) == '?') {
+                System.out.println("Help not implemented."); // TODO Help
+                continue;
+            }
+
+            // obtain multiplier (the amount of this item which is produced by this recipe)
+            if (input.charAt(0) == 'x') {
+                try {
+                    int i = Integer.parseInt(input.substring(1));
+                    // do not set a non-positive multiplier, ie the recipe must do something
+                    if (0 < i) {
+                        multiplier = i;
+                        System.out.println("Multiplier updated.");
+                    } else {
+                        System.out.println("Invalid multiplier amount.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid multiplier amount.");
+                }
+                continue;
+            }
+
             try {
                 String[] i = input.split(" ",2);
                 ingredients.put(i[1],Integer.parseInt(i[0]));
@@ -36,7 +69,7 @@ public class RecipeManager {
                 System.out.println("(Continue your list or enter a blank to end recipe.)");
             }
         }
-        return new Recipe(name,ingredients);
+        return new Recipe(name,ingredients,multiplier);
     }
 
     /**
